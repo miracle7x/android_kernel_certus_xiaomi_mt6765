@@ -50,8 +50,8 @@ jobs:
         uses: actions/cache@v4
         with:
           path: /home/runner/.ccache
-          key: ${{ runner.os }}-ccache-tissot-${{ github.sha }}
-          restore-keys: ${{ runner.os }}-ccache-tissot-
+          key: ${{ runner.os }}-ccache-certus-${{ github.sha }}
+          restore-keys: ${{ runner.os }}-ccache-certus-
 
       - name: 🔧 Deps
         run: |
@@ -70,9 +70,9 @@ jobs:
 
       - name: 🔍 Detect defconfig
         run: |
-          if [ -f arch/arm/configs/certus_defconfig ]; then
+          if [ -f arch/arm64/configs/certus_defconfig ]; then
             echo "DEFCONFIG=certus_defconfig" >> $GITHUB_ENV
-          elif [ -f arch/arm/configs/certus_defconfig ]; then
+          elif [ -f arch/arm64/configs/certus_defconfig ]; then
             echo "DEFCONFIG=certus_defconfig" >> $GITHUB_ENV
           else
             echo "Defconfig certus tidak ditemukan. Isi arch/arm/configs:"
@@ -133,17 +133,17 @@ jobs:
           cp out/arch/boot/Image.gz-dtb anykernel/Image.gz-dtb
 
           cd anykernel
-          zip -r9 ../perf-nontreble-ksu-tissot-$(date +'%Y%m%d').zip * -x .git README.md *placeholder
+          zip -r9 ../perf-certus-ksu-$(date +'%Y%m%d').zip * -x .git README.md *placeholder
 
       - name: ⬇️ Upload
         uses: actions/upload-artifact@v4
         with:
-          name: perf-nontreble-ksu-tissot
-          path: perf-nontreble-ksu-tissot-*.zip
+          name: perf-certus-ksu
+          path: perf-certus-ksu-*.zip
 
       - name: ⬇️ Telegram Upload
         run: |
-          ZIP=$(ls perf-nontreble-ksu-tissot-*.zip | head -n1)
+          ZIP=$(ls perf-certus-ksu-*.zip | head -n1)
           SIZE=$(du -h "$ZIP" | cut -f1)
           curl -s -F document=@"$ZIP" \
             -F chat_id="${TELEGRAM_CHAT_ID}" \
