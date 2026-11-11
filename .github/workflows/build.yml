@@ -40,7 +40,7 @@ jobs:
           fetch-depth: 1
           submodules: recursive
 
-      - name: ⚡ Cache Clang
+      - name: ⚡ Clang
         uses: actions/cache@v4
         with:
           path: clang
@@ -73,7 +73,7 @@ jobs:
           if [ -f arch/arm/configs/certus_defconfig ]; then
             echo "DEFCONFIG=certus_defconfig" >> $GITHUB_ENV
           elif [ -f arch/arm/configs/certus_defconfig ]; then
-            echo "DEFCONFIG=tissot_defconfig" >> $GITHUB_ENV
+            echo "DEFCONFIG=certus_defconfig" >> $GITHUB_ENV
           else
             echo "Defconfig certus tidak ditemukan. Isi arch/arm/configs:"
             ls arch/arm/configs
